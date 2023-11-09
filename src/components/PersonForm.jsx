@@ -24,7 +24,9 @@ const PersonForm = ({ persons, setPersons }) => {
           .then((response) => {
             setPersons(
               persons.map((elem) => (elem.id !== person.id ? elem : response))
-            );
+            ).catch((error) => {
+              showNotification(error.response.data.error);
+            });
           });
       }
     } else {
@@ -33,6 +35,9 @@ const PersonForm = ({ persons, setPersons }) => {
         .create({ name: newName, number: newNumber })
         .then((response) => {
           setPersons(persons.concat(response));
+        })
+        .catch((error) => {
+          showNotification(error.response.data.error);
         });
     }
   };
